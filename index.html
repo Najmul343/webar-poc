@@ -5,78 +5,94 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#0f172a" />
-    <title>WebAR: Lightweight 3D Engine & Benchmark</title>
+    <meta name="theme-color" content="#090d16" />
+    <title>SnapAR: Bitmoji & High-Performance WebAR</title>
 
-    <!-- 8th Wall Distributed Engine Binary (SLAM chunk) -->
-    <script src="/external/xr/xr.js" async data-preload-chunks="slam"></script>
+    <!-- Google Model Viewer (Official WebAR & Scene Viewer Engine) -->
+    <script type="module" src="/external/model-viewer/model-viewer.min.js"></script>
   </head>
   <body>
     <div id="app-container">
-      <!-- AR Rendering Canvas -->
-      <canvas id="camera-canvas"></canvas>
+      <!-- High-Fidelity 3D & Native Hardware-Accelerated AR Viewport -->
+      <model-viewer
+        id="ar-viewer"
+        src="/models/robot-opt.glb"
+        alt="3D AR Experience"
+        camera-controls
+        touch-action="pan-y"
+        autoplay
+        animation-name="Dance"
+        shadow-intensity="1.5"
+        shadow-softness="0.7"
+        exposure="1.05"
+        environment-image="neutral"
+        ar
+        ar-modes="webxr scene-viewer quick-look"
+        ar-scale="auto"
+        ar-placement="floor"
+        interaction-prompt="none"
+      >
+      </model-viewer>
 
-      <!-- Mobile UI Overlay (supports WebXR DOM Overlay) -->
+      <!-- Snapchat-Style Mobile UI Overlay -->
       <div id="ui-overlay">
-        <!-- Top Navigation / Status Header -->
+        <!-- Top Navigation / Performance Header -->
         <header class="header-bar interactive">
           <div class="brand">
-            <span class="brand-dot"></span>
-            <span>AR LAB</span>
+            <span>SNAP AR</span>
+            <span class="brand-badge">BITMOJI</span>
           </div>
           <div class="header-actions">
             <span id="fps-badge" class="fps-badge">60 FPS</span>
-            <button id="btn-bench" class="btn btn-secondary" title="View Benchmark & VRAM Comparison" style="padding: 4px 10px; font-size: 11px;">📊 Lab</button>
-            <span id="status-badge" class="status-badge">Starting…</span>
+            <button id="btn-lab" class="btn-lab" title="View 3D Performance Benchmark">
+              <span>📊 Lab</span>
+            </button>
           </div>
         </header>
 
-        <!-- Center Stack: Instructions & Dynamic Loading Indicator -->
+        <!-- Center Stack: Dynamic Loading & Animation Action Pills -->
         <div class="center-stack">
-          <div id="instruction-toast" class="instruction-toast">
-            Move your phone slowly to scan the environment
+          <!-- Dynamic Model Loading Pill -->
+          <div id="loading-indicator" class="loading-indicator hidden">
+            <span class="mini-spinner"></span>
+            <span id="loading-text">Loading model...</span>
           </div>
 
-          <div id="model-loading-pill" class="model-loading-pill hidden">
-            <span class="mini-spinner"></span>
-            <span id="model-loading-text">Loading model...</span>
-          </div>
+          <!-- Floating Animation Clip Bar (Appears for Rigged Characters) -->
+          <div id="clip-selector-bar" class="clip-selector-bar interactive hidden"></div>
         </div>
 
-        <!-- Bottom Controls & Model Selector -->
+        <!-- Bottom Controls: Lens Carousel & Snapchat AR Shutter -->
         <footer class="bottom-panel">
-          <!-- Horizontal Model Tray -->
-          <div id="model-selector-tray" class="model-selector-tray interactive"></div>
+          <!-- Snapchat-Style Circular Lens Carousel -->
+          <div class="lens-carousel-wrapper interactive">
+            <div id="lens-carousel" class="lens-carousel"></div>
+          </div>
 
-          <!-- Placement Action Bar -->
-          <div id="action-bar" class="action-bar interactive hidden">
-            <button id="btn-reset" class="btn btn-secondary" title="Reset Rotation & Scale">
-              <span>↺ Reset</span>
-            </button>
-            <button id="btn-anim" class="btn btn-secondary" style="display: none;" title="Toggle Animation Clip">
-              <span>▶ Clip</span>
-            </button>
-            <button id="btn-remove" class="btn btn-danger" title="Remove Object">
-              <span>✕ Remove</span>
+          <!-- Snapchat AR Shutter Placement Button -->
+          <div class="ar-shutter-container interactive">
+            <button id="btn-ar-shutter" class="ar-shutter-btn" title="View in Physical Space">
+              <svg class="shutter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
+              </svg>
+              <span>View in your space</span>
             </button>
           </div>
         </footer>
 
-        <!-- Modal, Permission & Benchmark Dialog -->
-        <div id="modal-overlay" class="modal-overlay interactive">
+        <!-- Benchmark & Performance Lab Modal -->
+        <div id="modal-overlay" class="modal-overlay interactive hidden">
           <div class="modal-card">
-            <div id="modal-spinner" class="spinner"></div>
-            <div id="modal-icon" class="modal-icon" style="display: none;"></div>
-            <h2 id="modal-title" class="modal-title">WebAR Demo</h2>
-            <p id="modal-desc" class="modal-desc">Loading AR experience...</p>
+            <h2 id="modal-title" class="modal-title">📊 WebAR 3D Performance Lab</h2>
+            <p id="modal-desc" class="modal-desc">Real measurements comparing HQ References against lightweight models.</p>
             <div id="modal-body"></div>
-            <button id="modal-action" class="btn btn-primary" style="display: none; margin-top: 14px;">Continue</button>
+            <button id="modal-close" class="btn-close">Close Benchmark</button>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Main Application Entry Point -->
+    <!-- Application Controller -->
     <script type="module" src="/src/main.js"></script>
   </body>
 </html>
