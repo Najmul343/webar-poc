@@ -1,93 +1,107 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="hi">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
-    <meta name="theme-color" content="#090d16" />
-    <title>SnapAR: Bitmoji & Ultra-Fast WebAR</title>
-
-    <!-- Google Model Viewer (Official Hardware-Accelerated AR Engine) -->
-    <script type="module" src="/external/model-viewer/model-viewer.min.js"></script>
+    <meta name="theme-color" content="#07090e" />
+    <title>Bharat AR Skills | भारत एआर स्किल्स (Vocational 3D Engine)</title>
+    <link rel="stylesheet" href="/src/ui/style.css" />
   </head>
   <body>
     <div id="app-container">
-      <!-- 3D Viewport with Instant ARCore Floor Anchoring -->
-      <model-viewer
-        id="ar-viewer"
-        src="/models/robot-expressive.glb"
-        alt="SnapAR 3D Experience"
-        camera-controls
-        touch-action="pan-y"
-        autoplay
-        animation-name="Dance"
-        shadow-intensity="1.5"
-        shadow-softness="0.8"
-        exposure="1.0"
-        environment-image="neutral"
-        ar
-        ar-modes="scene-viewer webxr quick-look"
-        ar-scale="fixed"
-        loading="eager"
-        reveal="auto"
-        interaction-prompt="none"
-      >
-      </model-viewer>
+      <!-- Live Mobile Camera Passthrough Feed (Z-index 1) -->
+      <video id="ar-camera-feed" autoplay playsinline muted></video>
 
-      <!-- Snapchat-Style Mobile UI Overlay -->
+      <!-- Hardware Accelerated WebGL 3D Canvas (Z-index 2) -->
+      <canvas id="webgl-canvas"></canvas>
+
+      <!-- Snapchat-grade Mobile Overlay (Z-index 10) -->
       <div id="ui-overlay">
-        <!-- Top Navigation / Performance Header -->
+        <!-- Top Bar: Brand, AR/Studio Toggle, Language & FPS -->
         <header class="header-bar interactive">
-          <div class="brand">
-            <span>SNAP AR</span>
-            <span class="brand-badge">BITMOJI</span>
+          <div class="brand-section">
+            <span class="brand-title">BHARAT AR SKILLS</span>
+            <span class="brand-sub">भारत एआर कौशल विकास</span>
           </div>
-          <div class="header-actions">
+
+          <div class="header-controls">
             <span id="fps-badge" class="fps-badge">60 FPS</span>
-            <button id="btn-lab" class="btn-lab" title="View 3D Performance Benchmark">
-              <span>📊 Lab</span>
+            <button id="btn-ar-toggle" class="btn-header" title="Toggle AR Camera">
+              📷 <span>AR Camera</span>
+            </button>
+            <button id="btn-lang-toggle" class="btn-header" title="Switch Language">
+              🌐 <span>हिन्दी</span>
             </button>
           </div>
         </header>
 
-        <!-- Center Stack: Dynamic Loading & Animation Action Pills -->
-        <div class="center-stack">
-          <!-- Dynamic Model Loading Pill -->
-          <div id="loading-indicator" class="loading-indicator hidden">
-            <span class="mini-spinner"></span>
-            <span id="loading-text">Loading model...</span>
-          </div>
-
-          <!-- Floating Animation Clip Bar (Appears for Rigged Characters) -->
-          <div id="clip-selector-bar" class="clip-selector-bar interactive hidden"></div>
+        <!-- Machine Category Navigation & Component Quick Pills -->
+        <div class="nav-stack">
+          <!-- Machine Selection Tabs -->
+          <div id="machine-tabs" class="machine-tabs-wrapper interactive"></div>
+          <!-- Component Quick Inspection Pills -->
+          <div id="parts-pills" class="parts-pills-wrapper interactive"></div>
         </div>
 
-        <!-- Bottom Controls: Lens Carousel & Snapchat AR Shutter -->
-        <footer class="bottom-panel">
-          <!-- Snapchat-Style Circular Lens Carousel -->
-          <div class="lens-carousel-wrapper interactive">
-            <div id="lens-carousel" class="lens-carousel"></div>
+        <!-- Touch Gestures Tip -->
+        <div class="gesture-tip">
+          👆 घुमाएँ (Rotate) &bull; 🤏 ज़ूम (Pinch Scale 0.05x-8x) &bull; 🎯 पुर्ज़े छुएँ (Tap Part)
+        </div>
+
+        <!-- Bottom Control Dock: Exploded View, Scales, Kinematics -->
+        <footer class="bottom-dock interactive">
+          <!-- Exploded View Slider -->
+          <div class="explode-slider-container">
+            <span class="explode-label">💥 विखंडन (Exploded):</span>
+            <div class="slider-track-wrap">
+              <input id="explode-slider" type="range" min="0" max="1" step="0.01" value="0" class="custom-slider" />
+            </div>
+            <span id="explode-value" class="explode-val-badge">0%</span>
           </div>
 
-          <!-- Snapchat AR Shutter Placement Button (Ultra-Fast Instant Floor Drop) -->
-          <div class="ar-shutter-container interactive">
-            <button id="btn-ar-shutter" class="ar-shutter-btn" title="View in Physical Space">
-              <svg class="shutter-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
-              </svg>
-              <span>⚡ View in your space</span>
-            </button>
+          <!-- Bottom Action Buttons: Scale Presets & Controls -->
+          <div class="bottom-actions-row">
+            <!-- Scale Presets -->
+            <div class="scale-presets-group">
+              <button class="btn-scale-preset" data-scale="0.25">0.25x मेज</button>
+              <button class="btn-scale-preset active" data-scale="1.0">1.0x मानक</button>
+              <button class="btn-scale-preset" data-scale="2.5">2.5x विशाल</button>
+            </div>
+
+            <!-- Aux Controls -->
+            <div class="aux-buttons">
+              <button id="btn-play-pause" class="btn-aux">
+                ⏸ <span class="lbl-play">विराम (Pause)</span>
+              </button>
+              <button id="btn-reset" class="btn-aux">
+                🔄 <span>केंद्र (Reset)</span>
+              </button>
+            </div>
           </div>
         </footer>
 
-        <!-- Benchmark & Performance Lab Modal -->
-        <div id="modal-overlay" class="modal-overlay interactive hidden">
-          <div class="modal-card">
-            <h2 id="modal-title" class="modal-title">📊 WebAR 3D Performance Lab</h2>
-            <p id="modal-desc" class="modal-desc">Real measurements comparing HQ References against lightweight models.</p>
-            <div id="modal-body"></div>
-            <button id="modal-close" class="btn-close">Close Benchmark</button>
+        <!-- Slide-Up NIMI Technical Inspection Sheet -->
+        <div id="inspection-sheet" class="inspection-sheet interactive">
+          <div class="sheet-header">
+            <div class="sheet-title-group">
+              <span class="sheet-badge">NIMI / DGT तकनीकी विनिर्देश (Technical Spec)</span>
+              <h2 id="sheet-part-name" class="sheet-part-name">पिस्टन और रिंग्स (Piston)</h2>
+            </div>
+            <button id="btn-close-sheet" class="btn-close-sheet" title="Close">&times;</button>
+          </div>
+
+          <div class="sheet-body">
+            <div id="sheet-material" class="sheet-card-info">
+              <strong>अभियांत्रिकी सामग्री (Material):</strong> Cast Aluminum Alloy (Al-Si)
+            </div>
+            <div id="sheet-function" class="sheet-card-info">
+              <strong>कार्यप्रणाली एवं उपयोग (Function):</strong> दहन गैसों के उच्च दबाव को सहन कर कनेक्टिंग रॉड में गति स्थानांतरित करता है।
+            </div>
+            <div id="sheet-trade" class="sheet-card-info trade">
+              <strong>संबंधित आईटीआई/डिप्लोमा ट्रेड (Curriculum):</strong> Mechanic Motor Vehicle / Fitter / Marine
+            </div>
           </div>
         </div>
       </div>
