@@ -6,7 +6,7 @@
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="mobile-web-app-capable" content="yes" />
     <meta name="theme-color" content="#0f172a" />
-    <title>WebAR Proof of Concept</title>
+    <title>WebAR: Lightweight 3D Engine & Benchmark</title>
 
     <!-- 8th Wall Distributed Engine Binary (SLAM chunk) -->
     <script src="/external/xr/xr.js" async data-preload-chunks="slam"></script>
@@ -22,39 +22,55 @@
         <header class="header-bar interactive">
           <div class="brand">
             <span class="brand-dot"></span>
-            <span>AR DEMO</span>
+            <span>AR LAB</span>
           </div>
-          <span id="status-badge" class="status-badge">Starting Camera…</span>
+          <div class="header-actions">
+            <span id="fps-badge" class="fps-badge">60 FPS</span>
+            <button id="btn-bench" class="btn btn-secondary" title="View Benchmark & VRAM Comparison" style="padding: 4px 10px; font-size: 11px;">📊 Lab</button>
+            <span id="status-badge" class="status-badge">Starting…</span>
+          </div>
         </header>
 
-        <!-- Center Instruction Toast -->
-        <div id="instruction-toast" class="instruction-toast">
-          Move your phone slowly to scan the environment
+        <!-- Center Stack: Instructions & Dynamic Loading Indicator -->
+        <div class="center-stack">
+          <div id="instruction-toast" class="instruction-toast">
+            Move your phone slowly to scan the environment
+          </div>
+
+          <div id="model-loading-pill" class="model-loading-pill hidden">
+            <span class="mini-spinner"></span>
+            <span id="model-loading-text">Loading model...</span>
+          </div>
         </div>
 
-        <!-- Bottom Controls -->
+        <!-- Bottom Controls & Model Selector -->
         <footer class="bottom-panel">
+          <!-- Horizontal Model Tray -->
+          <div id="model-selector-tray" class="model-selector-tray interactive"></div>
+
+          <!-- Placement Action Bar -->
           <div id="action-bar" class="action-bar interactive hidden">
             <button id="btn-reset" class="btn btn-secondary" title="Reset Rotation & Scale">
               <span>↺ Reset</span>
             </button>
+            <button id="btn-anim" class="btn btn-secondary" style="display: none;" title="Toggle Animation Clip">
+              <span>▶ Clip</span>
+            </button>
             <button id="btn-remove" class="btn btn-danger" title="Remove Object">
               <span>✕ Remove</span>
-            </button>
-            <button id="btn-switch-model" class="btn btn-secondary" title="Switch 3D Model">
-              <span>Switch: Helmet</span>
             </button>
           </div>
         </footer>
 
-        <!-- Modal & Permission Dialog -->
+        <!-- Modal, Permission & Benchmark Dialog -->
         <div id="modal-overlay" class="modal-overlay interactive">
           <div class="modal-card">
             <div id="modal-spinner" class="spinner"></div>
             <div id="modal-icon" class="modal-icon" style="display: none;"></div>
             <h2 id="modal-title" class="modal-title">WebAR Demo</h2>
             <p id="modal-desc" class="modal-desc">Loading AR experience...</p>
-            <button id="modal-action" class="btn btn-primary" style="display: none;">Continue</button>
+            <div id="modal-body"></div>
+            <button id="modal-action" class="btn btn-primary" style="display: none; margin-top: 14px;">Continue</button>
           </div>
         </div>
       </div>

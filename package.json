@@ -13,7 +13,11 @@
   },
   "devDependencies": {
     "@8thwall/engine-binary": "^1.0.0",
+    "@gltf-transform/cli": "^4.5.0",
+    "@gltf-transform/core": "^4.5.0",
+    "@gltf-transform/extensions": "^4.5.0",
     "@vitejs/plugin-basic-ssl": "^1.2.0",
+    "meshoptimizer": "^1.2.0",
     "vite": "^6.0.0"
   }
 }
