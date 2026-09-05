@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="theme-color" content="#0f172a" />
+    <title>WebAR Proof of Concept</title>
+
+    <!-- 8th Wall Distributed Engine Binary (SLAM chunk) -->
+    <script src="/external/xr/xr.js" async data-preload-chunks="slam"></script>
+  </head>
+  <body>
+    <div id="app-container">
+      <!-- AR Rendering Canvas -->
+      <canvas id="camera-canvas"></canvas>
+
+      <!-- Mobile UI Overlay (supports WebXR DOM Overlay) -->
+      <div id="ui-overlay">
+        <!-- Top Navigation / Status Header -->
+        <header class="header-bar interactive">
+          <div class="brand">
+            <span class="brand-dot"></span>
+            <span>AR DEMO</span>
+          </div>
+          <span id="status-badge" class="status-badge">Starting Camera…</span>
+        </header>
+
+        <!-- Center Instruction Toast -->
+        <div id="instruction-toast" class="instruction-toast">
+          Move your phone slowly to scan the environment
+        </div>
+
+        <!-- Bottom Controls -->
+        <footer class="bottom-panel">
+          <div id="action-bar" class="action-bar interactive hidden">
+            <button id="btn-reset" class="btn btn-secondary" title="Reset Rotation & Scale">
+              <span>↺ Reset</span>
+            </button>
+            <button id="btn-remove" class="btn btn-danger" title="Remove Object">
+              <span>✕ Remove</span>
+            </button>
+            <button id="btn-switch-model" class="btn btn-secondary" title="Switch 3D Model">
+              <span>Switch: Helmet</span>
+            </button>
+          </div>
+        </footer>
+
+        <!-- Modal & Permission Dialog -->
+        <div id="modal-overlay" class="modal-overlay interactive">
+          <div class="modal-card">
+            <div id="modal-spinner" class="spinner"></div>
+            <div id="modal-icon" class="modal-icon" style="display: none;"></div>
+            <h2 id="modal-title" class="modal-title">WebAR Demo</h2>
+            <p id="modal-desc" class="modal-desc">Loading AR experience...</p>
+            <button id="modal-action" class="btn btn-primary" style="display: none;">Continue</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Application Entry Point -->
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>
