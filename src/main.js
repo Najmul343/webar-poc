@@ -8,8 +8,88 @@ class SnapARApp {
 
     // 100% Clean, Standard glTF 2.0 Binary Models (Zero non-standard extensions, Instant Decode on Android)
     this.models = {
+      // Engineering & Vocational Training
+      engine: {
+        id: 'engine',
+        category: 'engineering',
+        label: 'IC Engine',
+        icon: '⚙️',
+        url: '/models/engine.glb',
+        sizeTag: '1.75 MB',
+        trade: 'Mechanical & Automotive ITI Fitter',
+        reduction: 'Internal Combustion Engine',
+        anim: 'Crankshaft, Pistons & Cylinder Head',
+        vram: '14.2 MB',
+        sizeBytes: 1838084,
+        defaultClip: 'inspect',
+        clips: [
+          { name: 'inspect', label: '🔍 1x CAD Scale (0.9m)', scale: '1 1 1' },
+          { name: 'zoom', label: '🔎 1.5x Internal Inspection', scale: '1.5 1.5 1.5' },
+          { name: 'bench', label: '🪑 0.6x Bench Scale', scale: '0.6 0.6 0.6' }
+        ]
+      },
+      gearbox: {
+        id: 'gearbox',
+        category: 'engineering',
+        label: 'Gearbox',
+        icon: '🔄',
+        url: '/models/gearbox.glb',
+        sizeTag: '4.72 MB',
+        trade: 'Machine Tool Technology & Transmission',
+        reduction: 'Multi-Stage Planetary Gear Train',
+        anim: 'Spur & Bevel Meshing Train',
+        vram: '28.6 MB',
+        sizeBytes: 4958788,
+        defaultClip: 'inspect',
+        clips: [
+          { name: 'inspect', label: '🔍 1x Assembly Scale (0.6m)', scale: '1 1 1' },
+          { name: 'macro', label: '🔬 2x Gear Teeth Detail', scale: '2 2 2' },
+          { name: 'desk', label: '📐 0.6x Desk Scale', scale: '0.6 0.6 0.6' }
+        ]
+      },
+      saw: {
+        id: 'saw',
+        category: 'engineering',
+        label: 'Power Tool',
+        icon: '🪚',
+        url: '/models/reciprocating-saw.glb',
+        sizeTag: '3.39 MB',
+        trade: 'Electromechanical & Power Tools',
+        reduction: 'Slider-Crank Mechanism Cutaway',
+        anim: 'Motor Armature & Eccentric Drive',
+        vram: '22.1 MB',
+        sizeBytes: 3562996,
+        defaultClip: 'inspect',
+        clips: [
+          { name: 'inspect', label: '🔍 1x Tool Scale (0.7m)', scale: '1 1 1' },
+          { name: 'cutaway', label: '🔎 1.8x Cutaway View', scale: '1.8 1.8 1.8' },
+          { name: 'compact', label: '📏 0.7x Compact View', scale: '0.7 0.7 0.7' }
+        ]
+      },
+      chassis: {
+        id: 'chassis',
+        category: 'engineering',
+        label: 'Chassis',
+        icon: '🏎️',
+        url: '/models/chassis.glb',
+        sizeTag: '7.50 MB',
+        trade: 'Automotive & Suspension Dynamics',
+        reduction: 'Double-Wishbone Suspension & Frame',
+        anim: 'Tubular Spaceframe & Dampers',
+        vram: '45.0 MB',
+        sizeBytes: 7885636,
+        defaultClip: 'ar1',
+        clips: [
+          { name: 'ar1', label: '🏎️ 1x Real Scale (2.5m)', scale: '1 1 1' },
+          { name: 'tabletop', label: '📦 0.4x Tabletop (1m)', scale: '0.4 0.4 0.4' },
+          { name: 'full', label: '🔍 1.4x Workshop Floor', scale: '1.4 1.4 1.4' }
+        ]
+      },
+
+      // Realistic Superheroes & Supercar
       ironman: {
         id: 'ironman',
+        category: 'superhero',
         label: 'Iron Man',
         icon: '🦾',
         url: '/models/ironman.glb',
@@ -23,6 +103,7 @@ class SnapARApp {
       },
       antman: {
         id: 'antman',
+        category: 'superhero',
         label: 'Ant-Man',
         icon: '🐜',
         url: '/models/antman.glb',
@@ -40,6 +121,7 @@ class SnapARApp {
       },
       hulk: {
         id: 'hulk',
+        category: 'superhero',
         label: 'Hulk',
         icon: '🟢',
         url: '/models/hulk.glb',
@@ -53,6 +135,7 @@ class SnapARApp {
       },
       supercar: {
         id: 'supercar',
+        category: 'superhero',
         label: 'Supercar',
         icon: '🏎️',
         url: '/models/supercar.glb',
@@ -66,6 +149,7 @@ class SnapARApp {
       },
       spiderman: {
         id: 'spiderman',
+        category: 'superhero',
         label: 'Spider-Man',
         icon: '🕷️',
         url: '/models/spiderman.glb',
@@ -77,8 +161,11 @@ class SnapARApp {
         defaultClip: null,
         clips: []
       },
+
+      // Reference & Interactive Models
       robot: {
         id: 'robot',
+        category: 'interactive',
         label: 'Robot',
         icon: '🤖',
         url: '/models/robot-expressive.glb',
@@ -99,6 +186,7 @@ class SnapARApp {
       },
       fox: {
         id: 'fox',
+        category: 'interactive',
         label: 'Fox',
         icon: '🦊',
         url: '/models/fox.glb',
@@ -116,6 +204,7 @@ class SnapARApp {
       },
       astronaut: {
         id: 'astronaut',
+        category: 'interactive',
         label: 'Astronaut',
         icon: '👨‍🚀',
         url: '/models/astronaut.glb',
@@ -128,6 +217,7 @@ class SnapARApp {
       },
       helmet: {
         id: 'helmet',
+        category: 'interactive',
         label: 'Helmet',
         icon: '🪖',
         url: '/models/damaged-helmet.glb',
@@ -140,8 +230,9 @@ class SnapARApp {
       }
     }
 
-    this.currentModelId = 'ironman'
-    this.currentClipName = null
+    this.currentCategory = 'all'
+    this.currentModelId = 'engine'
+    this.currentClipName = 'inspect'
     this.modelLoadStartTime = performance.now()
     this.measuredLoadTime = 25
 
@@ -154,7 +245,30 @@ class SnapARApp {
     return new URL(relativePath, window.location.href).href
   }
 
+  getFilteredModels(category = this.currentCategory) {
+    if (!category || category === 'all') return this.models
+    const filtered = {}
+    Object.keys(this.models).forEach(k => {
+      if (this.models[k].category === category) {
+        filtered[k] = this.models[k]
+      }
+    })
+    return filtered
+  }
+
   setupListeners() {
+    this.ui.onSelectCategoryCallback = (category) => {
+      this.currentCategory = category
+      const filtered = this.getFilteredModels(category)
+      this.ui.renderLensCarousel(filtered, this.currentModelId)
+
+      // If current model is not in this category, switch to the first model in category
+      if (!filtered[this.currentModelId]) {
+        const firstKey = Object.keys(filtered)[0]
+        if (firstKey) this.selectModel(firstKey)
+      }
+    }
+
     this.ui.onSelectModelCallback = (modelId) => {
       this.selectModel(modelId)
     }
@@ -227,13 +341,22 @@ class SnapARApp {
   }
 
   init() {
-    this.ui.renderLensCarousel(this.models, this.currentModelId)
+    const initialModels = this.getFilteredModels(this.currentCategory)
+    this.ui.renderLensCarousel(initialModels, this.currentModelId)
     const initialModel = this.models[this.currentModelId]
     
     // Set canonical absolute URL for instant ARCore loading
     if (this.viewer) {
+      this.viewer.scale = '1 1 1'
       this.viewer.src = this.getAbsoluteUrl(initialModel.url)
-      this.viewer.animationName = initialModel.defaultClip || null
+      if (initialModel.defaultClip) {
+        const defaultClipObj = initialModel.clips.find(c => c.name === initialModel.defaultClip)
+        if (defaultClipObj && defaultClipObj.scale) {
+          this.viewer.scale = defaultClipObj.scale
+        } else {
+          this.viewer.animationName = initialModel.defaultClip
+        }
+      }
     }
 
     this.ui.renderAnimationClips(initialModel.clips, this.currentClipName)

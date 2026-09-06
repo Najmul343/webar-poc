@@ -16,7 +16,7 @@
       <!-- 3D Viewport with Instant ARCore Floor Anchoring -->
       <model-viewer
         id="ar-viewer"
-        src="/models/ironman.glb"
+        src="/models/engine.glb"
         alt="SnapAR 3D Experience"
         camera-controls
         touch-action="pan-y"
@@ -40,7 +40,7 @@
         <header class="header-bar interactive">
           <div class="brand">
             <span>SNAP AR</span>
-            <span class="brand-badge">BITMOJI</span>
+            <span class="brand-badge">PRO & EDU</span>
           </div>
           <div class="header-actions">
             <span id="fps-badge" class="fps-badge">60 FPS</span>
@@ -58,12 +58,21 @@
             <span id="loading-text">Loading model...</span>
           </div>
 
-          <!-- Floating Animation Clip Bar (Appears for Rigged Characters) -->
+          <!-- Floating Animation Clip Bar (Appears for Rigged Characters or Scale Chips) -->
           <div id="clip-selector-bar" class="clip-selector-bar interactive hidden"></div>
         </div>
 
-        <!-- Bottom Controls: Lens Carousel & Snapchat AR Shutter -->
+        <!-- Bottom Controls: Category Tabs, Lens Carousel & Snapchat AR Shutter -->
         <footer class="bottom-panel">
+          <!-- Category Filter Tabs -->
+          <div class="category-tabs-wrapper interactive">
+            <div id="category-tabs" class="category-tabs">
+              <button class="cat-pill active" data-cat="all">⚡ All Models</button>
+              <button class="cat-pill" data-cat="engineering">⚙️ Engineering & Vocational</button>
+              <button class="cat-pill" data-cat="superhero">🦾 Superheroes</button>
+            </div>
+          </div>
+
           <!-- Snapchat-Style Circular Lens Carousel -->
           <div class="lens-carousel-wrapper interactive">
             <div id="lens-carousel" class="lens-carousel"></div>

@@ -4,6 +4,7 @@ export class UIManager {
     this.loadingIndicator = document.getElementById('loading-indicator')
     this.loadingText = document.getElementById('loading-text')
     this.lensCarousel = document.getElementById('lens-carousel')
+    this.categoryTabs = document.getElementById('category-tabs')
     this.clipBar = document.getElementById('clip-selector-bar')
     this.btnArShutter = document.getElementById('btn-ar-shutter')
     this.btnLab = document.getElementById('btn-lab')
@@ -16,6 +17,7 @@ export class UIManager {
 
     this.onSelectModelCallback = null
     this.onSelectClipCallback = null
+    this.onSelectCategoryCallback = null
     this.onActivateARCallback = null
     this.onOpenLabCallback = null
 
@@ -23,6 +25,20 @@ export class UIManager {
   }
 
   setupListeners() {
+    if (this.categoryTabs) {
+      this.categoryTabs.addEventListener('click', (e) => {
+        const pill = e.target.closest('.cat-pill')
+        if (!pill) return
+        e.stopPropagation()
+        this.categoryTabs.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'))
+        pill.classList.add('active')
+        const cat = pill.dataset.cat || 'all'
+        if (this.onSelectCategoryCallback) {
+          this.onSelectCategoryCallback(cat)
+        }
+      })
+    }
+
     if (this.btnArShutter) {
       this.btnArShutter.addEventListener('click', (e) => {
         e.stopPropagation()
