@@ -51,6 +51,7 @@ export class UIManager {
     Object.keys(models).forEach((key) => {
       const m = models[key]
       const item = document.createElement('button')
+      item.dataset.modelId = key
       item.className = `lens-item interactive ${key === activeId ? 'active' : ''}`
       item.innerHTML = `
         <div class="lens-bubble">${m.icon}</div>
@@ -71,8 +72,11 @@ export class UIManager {
     if (!this.lensCarousel) return
     const items = this.lensCarousel.querySelectorAll('.lens-item')
     items.forEach(item => item.classList.remove('active'))
-    const active = Array.from(items).find(item => item.textContent.includes(modelKey))
-    if (active) active.classList.add('active')
+    const active = this.lensCarousel.querySelector(`[data-model-id="${modelKey}"]`)
+    if (active) {
+      active.classList.add('active')
+      active.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+    }
   }
 
   renderAnimationClips(clips, activeClipName) {
@@ -96,7 +100,7 @@ export class UIManager {
         this.clipBar.querySelectorAll('.clip-pill').forEach(p => p.classList.remove('active'))
         pill.classList.add('active')
         if (this.onSelectClipCallback) {
-          this.onSelectClipCallback(clip.name)
+          this.onSelectClipCallback(clip)
         }
       })
       this.clipBar.appendChild(pill)
